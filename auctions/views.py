@@ -7,6 +7,9 @@ from django.urls import reverse
 from .models import User
 
 
+def create_listing(request):
+    pass
+
 def index(request):
     return render(request, "auctions/index.html")
 
