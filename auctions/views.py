@@ -9,10 +9,15 @@ from .models import User
 
 
 class ListingForm(forms.Form):
-    pass
+    title = forms.CharField(max_length=128, label="Listing Title")
+    description = forms.CharField(max_length=1920, widget=forms.Textarea, initial="Description")
+    starting_bid = forms.DecimalField(min_value=0, decimal_places=2)
+    image_url = forms.CharField(max_length=128)
 
 def create_listing(request):
-    pass
+    return render(request, "auctions/create_listing.html", {
+        "form", ListingForm()
+    })
 
 def index(request):
     return render(request, "auctions/index.html")
