@@ -2,14 +2,19 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
-class AuctionListing(models.Model):
-    pass
-
-class AuctionBid(models.Model):
+class User(AbstractUser):
     pass
 
 class Comment(models.Model):
-    pass
+    poster = models.ForeignKey(User, on_delete=models.CASCADE)
+    text = models.CharField(max_length=1920)
 
-class User(AbstractUser):
-    pass
+class AuctionListing(models.Model):
+    name = models.CharField(max_length=128)
+    image_url = models.CharField(max_length=128)
+    poster = models.ForeignKey(User, on_delete=models.CASCADE)
+
+class AuctionBid(models.Model):
+    bidder = models.ForeignKey(User, on_delete=models.CASCADE)
+    listing = models.ForeignKey(AuctionListing, on_delete=models.CASCADE)
+    amount = models.FloatField()
