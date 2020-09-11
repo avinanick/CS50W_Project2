@@ -3,9 +3,13 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from django import forms
 
 from .models import User
 
+
+class ListingForm(forms.Form):
+    pass
 
 def create_listing(request):
     pass
