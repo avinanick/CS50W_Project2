@@ -5,12 +5,7 @@
 
     <ul style="list-style-type:none;">
         {% for listing in active_listings %}
-        <li><div>
-            <a href="{% url 'listing' listing.id %}"><h3>{{ listing.title }}</h3></a>
-            <img src="{{ listing.image_url }}">
-            <p>{{ listing.description }}</p>
-            <p> {{ listing.price }}</p>
-        </div></li>
+        <li>{% include "auctions/listing_preview.html" %}</li>
         {% empty %}
             <li>No Active Listings</li>
         {% endfor %}
