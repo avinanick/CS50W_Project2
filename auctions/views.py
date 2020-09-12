@@ -6,6 +6,7 @@ from django.urls import reverse
 from django import forms
 
 from .models import User, AuctionListing, AuctionBid, Comment
+from .utils import calculate_price
 
 
 class ListingForm(forms.Form):
@@ -34,8 +35,11 @@ def index(request):
     return render(request, "auctions/index.html")
 
 def listing_view(request, listing_id):
+    auction = AuctionListing.objects.get(id=listing_id)
+    price = calculate_price(auction)
     return render(request, "auctions/listing_view.html", {
-        "listing": AuctionListing.objects.get(id=listing_id)
+        "listing": auction,
+        "price": price
     })
 
 def login_view(request):
