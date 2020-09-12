@@ -108,4 +108,11 @@ def register(request):
         return render(request, "auctions/register.html")
 
 def wishlist(request):
-    return render(request, "auctions/wishlist.html")
+    if request.method == "POST":
+        if request.user.is_authenticated:
+            auctionID = request.POST["id"]
+            auction = AuctionListing.objects.get(id=auctionID)
+            auction.watchers.add(request.user)
+    return render(request, "auctions/wishlist.html", {
+        "watchlist": request.user.watchlist.all()
+    })
