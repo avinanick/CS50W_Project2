@@ -2,4 +2,9 @@
 
 {% block body %}
     <h1>{{ listing.title }}</h1>
+    <div>
+        <img src="{{ listing.image_url }}">
+        <p>{{ listing.description }}</p>
+        <p>{{ price }}</p>
+    </div>
 {% endblock %}
