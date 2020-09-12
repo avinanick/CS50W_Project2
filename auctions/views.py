@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse
 from django import forms
 
@@ -24,7 +24,7 @@ def create_listing(request):
                                             image_url=form.cleaned_data["image_url"],
                                             poster=request.user)
             new_listing.save()
-            return # STUB: SHOULD REDIRECT TO NEW LISTING VIEW
+            return redirect("listing", listing_id=new_listing.id)
 
     return render(request, "auctions/create_listing.html", {
         "form": ListingForm()
@@ -33,6 +33,10 @@ def create_listing(request):
 def index(request):
     return render(request, "auctions/index.html")
 
+def listing_view(request, listing_id):
+    return render(request, "auctions/listing_view.html", {
+        "listing": AuctionListing.objects.get(id=listing_id)
+    })
 
 def login_view(request):
     if request.method == "POST":
