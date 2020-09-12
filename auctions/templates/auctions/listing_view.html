@@ -5,7 +5,7 @@
     <div>
         <img src="{{ listing.image_url }}">
         <p>{{ listing.description }}</p>
-        <p>{{ price }}</p>
+        <p>{{ listing.price }}</p>
     </div>
     {% if user.is_authenticated %}
         <form action="{% url 'listing' %}" method="POST">

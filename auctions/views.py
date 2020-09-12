@@ -22,6 +22,7 @@ def create_listing(request):
             new_listing = AuctionListing(title=form.cleaned_data["title"],
                                             description=form.cleaned_data["description"],
                                             starting_bid=form.cleaned_data["starting_bid"],
+                                            price=form.cleaned_data["starting_bid"],
                                             image_url=form.cleaned_data["image_url"],
                                             poster=request.user)
             new_listing.save()
@@ -32,14 +33,14 @@ def create_listing(request):
     })
 
 def index(request):
-    return render(request, "auctions/index.html")
+    return render(request, "auctions/index.html", {
+        "active_listings": AuctionListing.objects.all()
+    })
 
 def listing_view(request, listing_id):
     auction = AuctionListing.objects.get(id=listing_id)
-    price = calculate_price(auction)
     return render(request, "auctions/listing_view.html", {
-        "listing": auction,
-        "price": price
+        "listing": auction
     })
 
 def login_view(request):
