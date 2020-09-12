@@ -3,17 +3,12 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from django import forms
 
 from .models import User, AuctionListing, AuctionBid, Comment
 from .utils import calculate_price
+from .forms import ListingForm, BidForm
 
 
-class ListingForm(forms.Form):
-    title = forms.CharField(max_length=128, label="Listing Title")
-    description = forms.CharField(max_length=1920, widget=forms.Textarea, initial="Description")
-    starting_bid = forms.DecimalField(min_value=0, decimal_places=2)
-    image_url = forms.CharField(max_length=128)
 
 def create_listing(request):
     if request.method == "POST":
@@ -38,6 +33,8 @@ def index(request):
     })
 
 def listing_view(request, listing_id):
+    if request.method == "POST":
+        if request.user.is_authenticated
     auction = AuctionListing.objects.get(id=listing_id)
     return render(request, "auctions/listing_view.html", {
         "listing": auction
