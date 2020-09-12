@@ -5,6 +5,9 @@ from django.db import models
 class User(AbstractUser):
     pass
 
+class Category(models.Model):
+    type=models.CharField(max_length=64)
+
 class AuctionListing(models.Model):
     title = models.CharField(max_length=128)
     description = models.CharField(max_length=1920)
