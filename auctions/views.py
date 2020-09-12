@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django import forms
 
-from .models import User
+from .models import User, AuctionListing, AuctionBid, Comment
 
 
 class ListingForm(forms.Form):
@@ -15,8 +15,19 @@ class ListingForm(forms.Form):
     image_url = forms.CharField(max_length=128)
 
 def create_listing(request):
+    if request.method == "POST":
+        form = ListingForm(request.POST)
+        if form.is_valid():
+            new_listing = AuctionListing(title=form.cleaned_data["title"],
+                                            description=form.cleaned_data["description"],
+                                            starting_bid=form.cleaned_data["starting_bid"],
+                                            image_url=form.cleaned_data["image_url"],
+                                            poster=request.user)
+            new_listing.save()
+            return # STUB: SHOULD REDIRECT TO NEW LISTING VIEW
+
     return render(request, "auctions/create_listing.html", {
-        "form", ListingForm()
+        "form": ListingForm()
     })
 
 def index(request):
