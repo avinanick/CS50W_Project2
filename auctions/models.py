@@ -12,6 +12,7 @@ class AuctionListing(models.Model):
     price = models.FloatField()
     image_url = models.CharField(max_length=128)
     poster = models.ForeignKey(User, on_delete=models.CASCADE, related_name="listings")
+    watchers = models.ManyToManyField(User, related_name="watchlist")
 
 class Comment(models.Model):
     poster = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_comments")
