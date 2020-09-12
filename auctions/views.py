@@ -33,11 +33,27 @@ def index(request):
     })
 
 def listing_view(request, listing_id):
-    if request.method == "POST":
-        if request.user.is_authenticated
     auction = AuctionListing.objects.get(id=listing_id)
+    if request.method == "POST":
+        if request.user.is_authenticated:
+            form = BidForm(request.POST)
+            if form.is_valid():
+                if auction.price < form.cleaned_data["bid"]:
+                    auction.price = form.cleaned_data["bid"]
+                    auction.save()
+                    new_bid = AuctionBid(listing=auction,
+                        bidder=request.user,
+                        amount=form.cleaned_data["bid"])
+                    new_bid.save()
+                else:
+                    return render(request, "auctions/listing_view.html", {
+                        "form":form,
+                        "listing": auction,
+                        "message": "You must enter a bid that is higher than the current highest bid!"
+                    })
     return render(request, "auctions/listing_view.html", {
-        "listing": auction
+        "listing": auction,
+        "form": BidForm
     })
 
 def login_view(request):
