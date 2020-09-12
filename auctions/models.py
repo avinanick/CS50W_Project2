@@ -16,6 +16,7 @@ class AuctionListing(models.Model):
     image_url = models.CharField(max_length=128)
     poster = models.ForeignKey(User, on_delete=models.CASCADE, related_name="listings")
     watchers = models.ManyToManyField(User, related_name="watchlist")
+    is_active = models.BooleanField(default=True)
 
 class Comment(models.Model):
     poster = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_comments")
