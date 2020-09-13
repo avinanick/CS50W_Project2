@@ -6,7 +6,7 @@ from django.urls import reverse
 
 from .models import User, AuctionListing, AuctionBid, Comment
 from .utils import calculate_price
-from .forms import ListingForm, BidForm
+from .forms import ListingForm, BidForm, CommentForm
 
 
 
@@ -48,12 +48,14 @@ def listing_view(request, listing_id):
                 else:
                     return render(request, "auctions/listing_view.html", {
                         "form":form,
+                        "comment_form": CommentForm(),
                         "listing": auction,
                         "message": "You must enter a bid that is higher than the current highest bid!"
                     })
     return render(request, "auctions/listing_view.html", {
         "listing": auction,
-        "form": BidForm
+        "form": BidForm,
+        "comment_form": CommentForm()
     })
 
 def login_view(request):
