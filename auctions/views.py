@@ -35,6 +35,12 @@ def index(request):
 
 def listing_view(request, listing_id):
     auction = AuctionListing.objects.get(id=listing_id)
+    var_dict = {
+        "form": BidForm(),
+        "listing": auction,
+        "comment_form": CommentForm(),
+        "comments": auction.listing_comments.all()
+    }
     if request.method == "POST":
         if request.user.is_authenticated:
             if "bid" in request.POST:
@@ -48,13 +54,8 @@ def listing_view(request, listing_id):
                             amount=form.cleaned_data["bid"])
                         new_bid.save()
                     else:
-                        return render(request, "auctions/listing_view.html", {
-                            "form":form,
-                            "comment_form": CommentForm(),
-                            "listing": auction,
-                            "comments": auction.listing_comments.all(),
-                            "message": "You must enter a bid that is higher than the current highest bid!"
-                        })
+                        var_dict["form"] = form
+                        var_dict["message"] = "You must enter a bid that is higher than the current highest bid!"
             if "comment" in request.POST:
                 comment_form = CommentForm(request.POST)
                 if comment_form.is_valid():
@@ -65,12 +66,11 @@ def listing_view(request, listing_id):
             if "close" in request.POST:
                 auction.is_active = False
                 auction.save()
-    return render(request, "auctions/listing_view.html", {
-        "listing": auction,
-        "form": BidForm,
-        "comment_form": CommentForm(),
-        "comments": auction.listing_comments.all()
-    })
+    if not auction.is_active:
+        winning_bid = AuctionBid.objects.get(listing=auction, amount=auction.price)
+        if winning_bid:
+            var_dict["winner"] = winning_bid.bidder
+    return render(request, "auctions/listing_view.html", var_dict)
 
 def login_view(request):
     if request.method == "POST":
