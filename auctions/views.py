@@ -36,23 +36,34 @@ def listing_view(request, listing_id):
     auction = AuctionListing.objects.get(id=listing_id)
     if request.method == "POST":
         if request.user.is_authenticated:
-            form = BidForm(request.POST)
-            if form.is_valid():
-                if auction.price < form.cleaned_data["bid"]:
-                    auction.price = form.cleaned_data["bid"]
-                    auction.save()
-                    new_bid = AuctionBid(listing=auction,
-                        bidder=request.user,
-                        amount=form.cleaned_data["bid"])
-                    new_bid.save()
-                else:
-                    return render(request, "auctions/listing_view.html", {
-                        "form":form,
-                        "comment_form": CommentForm(),
-                        "listing": auction,
-                        "comments": auction.listing_comments.all(),
-                        "message": "You must enter a bid that is higher than the current highest bid!"
-                    })
+            if "bid" in request.POST:
+                form = BidForm(request.POST)
+                if form.is_valid():
+                    if auction.price < form.cleaned_data["bid"]:
+                        auction.price = form.cleaned_data["bid"]
+                        auction.save()
+                        new_bid = AuctionBid(listing=auction,
+                            bidder=request.user,
+                            amount=form.cleaned_data["bid"])
+                        new_bid.save()
+                    else:
+                        return render(request, "auctions/listing_view.html", {
+                            "form":form,
+                            "comment_form": CommentForm(),
+                            "listing": auction,
+                            "comments": auction.listing_comments.all(),
+                            "message": "You must enter a bid that is higher than the current highest bid!"
+                        })
+            if "comment" in request.POST:
+                comment_form = CommentForm(request.POST)
+                if form.is_valid():
+                    new_comment = Comment(poster=request.user,
+                                            listing=auction,
+                                            text=comment_form.cleaned_data["comment"])
+                    new_comment.save()
+            if "close" in request.POST:
+                auction.is_active = False
+                auction.save()
     return render(request, "auctions/listing_view.html", {
         "listing": auction,
         "form": BidForm,
