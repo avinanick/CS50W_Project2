@@ -17,6 +17,10 @@
                 {{ form }}
                 <input type="submit" value="Bid">
             </form>
+        {% elif winner %}
+            {% if user==winner %}
+                <p>You won the auction!</p>
+            {% endif %}
         {% endif %}
         <form action="{% url 'wishlist' %}" method="POST">
             {% csrf_token %}
