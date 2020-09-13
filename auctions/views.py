@@ -19,7 +19,8 @@ def create_listing(request):
                                             starting_bid=form.cleaned_data["starting_bid"],
                                             price=form.cleaned_data["starting_bid"],
                                             image_url=form.cleaned_data["image_url"],
-                                            poster=request.user)
+                                            poster=request.user,
+                                            category=form.cleaned_data["category"])
             new_listing.save()
             return redirect("listing", listing_id=new_listing.id)
 
