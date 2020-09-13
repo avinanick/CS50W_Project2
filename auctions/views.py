@@ -29,7 +29,7 @@ def create_listing(request):
 
 def index(request):
     return render(request, "auctions/index.html", {
-        "active_listings": AuctionListing.objects.all()
+        "active_listings": AuctionListing.objects.filter(is_active=True)
     })
 
 def listing_view(request, listing_id):
