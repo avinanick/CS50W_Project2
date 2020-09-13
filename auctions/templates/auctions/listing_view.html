@@ -22,18 +22,21 @@
             <input type="submit" value="Add To Wishlist">
         </form>
         {% if user == listing.poster %}
-            <form>
-                {% csrf_token %}
-                <input type="submit" value="Close Auction">
-            </form>
+            {% if listing.is_active %}
+                <form action="{% url 'listing' listing.id %}" method="POST">
+                    {% csrf_token %}
+                    <input type="number" value="1" name="close" hidden>
+                    <input type="submit" value="Close Auction">
+                </form>
+            {% endif %}
         {% endif %}
     {% endif %}
     <div>
         <h3>Comments</h3>
-        {% for comment in listing.listing_comments %}
+        {% for comment in comments %}
         {% endfor %}
         {% if user.is_authenticated %}
-            <form>
+            <form action="{% url 'listing' listing.id %}" method="POST">
                 {% csrf_token %}
                 {{ comment_form }}
                 <input type="submit" value="Submit">

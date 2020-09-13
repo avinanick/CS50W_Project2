@@ -50,12 +50,14 @@ def listing_view(request, listing_id):
                         "form":form,
                         "comment_form": CommentForm(),
                         "listing": auction,
+                        "comments": auction.listing_comments.all(),
                         "message": "You must enter a bid that is higher than the current highest bid!"
                     })
     return render(request, "auctions/listing_view.html", {
         "listing": auction,
         "form": BidForm,
-        "comment_form": CommentForm()
+        "comment_form": CommentForm(),
+        "comments": auction.listing_comments.all()
     })
 
 def login_view(request):
