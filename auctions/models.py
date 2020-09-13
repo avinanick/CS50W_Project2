@@ -20,7 +20,7 @@ class AuctionListing(models.Model):
     poster = models.ForeignKey(User, on_delete=models.CASCADE, related_name="listings")
     watchers = models.ManyToManyField(User, related_name="watchlist")
     is_active = models.BooleanField(default=True)
-    category = models.ForeignKey(Category, related_name="listings", on_delete=models.CASCADE, default=Category.objects.get(type="Home"))
+    category = models.ForeignKey(Category, related_name="listings", on_delete=models.CASCADE)
 
 class Comment(models.Model):
     poster = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_comments")
