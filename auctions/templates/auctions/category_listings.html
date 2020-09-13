@@ -1,0 +1,12 @@
+{% extends 'auctions/layout.html' %}
+
+{% block body %}
+    <h2>{{ category }}</h2>
+    <ul style="list-style-type:none;">
+        {% for listing in listings %}
+        <li>{% include "auctions/listing_preview.html" %}</li>
+        {% empty %}
+            <li>No listings for {{ category }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

@@ -10,6 +10,14 @@ from .forms import ListingForm, BidForm, CommentForm, Category
 
 
 
+def category_listings(request, category):
+    category = Category.objects.get(type=category)
+    auctions = AuctionListing.objects.filter(category=category)
+    return render(request, "auctions/category_listings.html", {
+        "category": category,
+        "listings": auctions
+    })
+
 def create_listing(request):
     if request.method == "POST":
         form = ListingForm(request.POST)
