@@ -32,10 +32,12 @@
         <h3>Comments</h3>
         {% for comment in listing.listing_comments %}
         {% endfor %}
-        <form>
-            {% csrf_token %}
-            {{ comment_form }}
-            <input type="submit" value="Submit">
-        </form>
+        {% if user.is_authenticated %}
+            <form>
+                {% csrf_token %}
+                {{ comment_form }}
+                <input type="submit" value="Submit">
+            </form>
+        {% endif %}
     </div>
 {% endblock %}
