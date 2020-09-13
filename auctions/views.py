@@ -6,7 +6,7 @@ from django.urls import reverse
 
 from .models import User, AuctionListing, AuctionBid, Comment
 from .utils import calculate_price
-from .forms import ListingForm, BidForm, CommentForm
+from .forms import ListingForm, BidForm, CommentForm, Category
 
 
 
@@ -31,6 +31,11 @@ def create_listing(request):
 def index(request):
     return render(request, "auctions/index.html", {
         "active_listings": AuctionListing.objects.filter(is_active=True)
+    })
+
+def list_categories(request):
+    return render(request, "auctions/list_categories.html", {
+        "categories": Category.objects.all()
     })
 
 def listing_view(request, listing_id):
