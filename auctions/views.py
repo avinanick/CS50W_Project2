@@ -56,7 +56,7 @@ def listing_view(request, listing_id):
                         })
             if "comment" in request.POST:
                 comment_form = CommentForm(request.POST)
-                if form.is_valid():
+                if comment_form.is_valid():
                     new_comment = Comment(poster=request.user,
                                             listing=auction,
                                             text=comment_form.cleaned_data["comment"])

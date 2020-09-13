@@ -8,14 +8,16 @@
         <p>{{ listing.price }}</p>
     </div>
     {% if user.is_authenticated %}
-        <form action="{% url 'listing' listing.id %}" method="POST">
-            {% csrf_token %}
-            {% if message %}
-                <p>{{ message }}</p>
-            {% endif %}
-            {{ form }}
-            <input type="submit" value="Bid">
-        </form>
+        {% if listing.is_active %}
+            <form action="{% url 'listing' listing.id %}" method="POST">
+                {% csrf_token %}
+                {% if message %}
+                    <p>{{ message }}</p>
+                {% endif %}
+                {{ form }}
+                <input type="submit" value="Bid">
+            </form>
+        {% endif %}
         <form action="{% url 'wishlist' %}" method="POST">
             {% csrf_token %}
             <input type="number" value="{{ listing.id }}" name="id" hidden>
@@ -34,6 +36,8 @@
     <div>
         <h3>Comments</h3>
         {% for comment in comments %}
+            <h4>{{ comment.poster.username }}</h4>
+            <p>{{ comment.text }}</p>
         {% endfor %}
         {% if user.is_authenticated %}
             <form action="{% url 'listing' listing.id %}" method="POST">
