@@ -16,7 +16,7 @@ class AuctionListing(models.Model):
     description = models.CharField(max_length=1920)
     starting_bid = models.FloatField()
     price = models.FloatField()
-    image_url = models.CharField(max_length=128)
+    image_url = models.CharField(max_length=128, null=True)
     poster = models.ForeignKey(User, on_delete=models.CASCADE, related_name="listings")
     watchers = models.ManyToManyField(User, related_name="watchlist")
     is_active = models.BooleanField(default=True)
