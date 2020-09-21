@@ -3,6 +3,7 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 
 from .models import User, AuctionListing, AuctionBid, Comment
 from .utils import calculate_price
@@ -18,6 +19,7 @@ def category_listings(request, category):
         "listings": auctions
     })
 
+@login_required
 def create_listing(request):
     if request.method == "POST":
         form = ListingForm(request.POST)
@@ -136,6 +138,7 @@ def register(request):
     else:
         return render(request, "auctions/register.html")
 
+@login_required
 def wishlist(request):
     if request.method == "POST":
         if request.user.is_authenticated:
