@@ -1,6 +1,6 @@
-<div>
+<div class="listing-preview">
     <a href="{% url 'listing' listing.id %}"><h3>{{ listing.title }}</h3></a>
-    <img src="{{ listing.image_url }}">
+    <img src="{{ listing.image_url }}" class="listing-image">
     <p>{{ listing.description }}</p>
     <p> {{ listing.price }}</p>
 </div>

@@ -1,3 +1,13 @@
 body {
     padding: 10px;
 }
+
+.listing-image {
+    width: 20%;
+}
+
+.listing-preview {
+    border-style: solid;
+    border-radius: 10px;
+    padding: 10px;
+}
