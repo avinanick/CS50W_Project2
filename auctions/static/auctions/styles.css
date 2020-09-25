@@ -2,6 +2,12 @@ body {
     padding: 10px;
 }
 
+.comment {
+    background-color: lightgray;
+    margin: 10px;
+    padding: 10px;
+}
+
 .listing-image {
     width: 20%;
 }

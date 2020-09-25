@@ -5,7 +5,7 @@
     <div>
         <img src="{{ listing.image_url }}" width="20%">
         <p>{{ listing.description }}</p>
-        <p>{{ listing.price }}</p>
+        <p>Price: {{ listing.price }}</p>
     </div>
     {% if user.is_authenticated %}
         {% if listing.is_active %}
@@ -40,8 +40,10 @@
     <div>
         <h3>Comments</h3>
         {% for comment in comments %}
-            <h4>{{ comment.poster.username }}</h4>
-            <p>{{ comment.text }}</p>
+            <div class="comment">
+                <h4>{{ comment.poster.username }}</h4>
+                <p>{{ comment.text }}</p>
+            </div>
         {% endfor %}
         {% if user.is_authenticated %}
             <form action="{% url 'listing' listing.id %}" method="POST">
